@@ -53,6 +53,32 @@ mongoClient.connect(`mongodb://localhost:27017/crunchbase`, (error, db) => {
             })
             break;
 
+            case "4":
+            // 4.- List by name all companies founded in february of 2004.
+            db.collection('companies').find({ "founded_year": 2004 , "founded_month":2}, { name: 1, _id: 0 }).toArray((error, result) => {
+              if (error) {
+                console.log(error);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              } else {
+                console.log(result);
+                rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+              }
+            })
+            break;
+
+            case "5":
+              //5.- List by name all companies founded in the summer of 2004 (april to june) sorted by date.
+              db.collection('companies').find({ "founded_year": 2004 , "founded_month": {$gte: 4, $lte: 6}}, { name: 1, _id: 0 }).sort({founded_month: 1}).toArray((error, result) => {
+                if (error) {
+                  console.log(error);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                } else {
+                  console.log(result);
+                  rl.question(`\nType enter to continue: `, (answer) => { mainMenu() });
+                }
+              })
+              break;
+
           // Code here next cases!
         }
       });
